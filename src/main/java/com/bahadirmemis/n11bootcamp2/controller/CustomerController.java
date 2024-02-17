@@ -3,9 +3,12 @@ package com.bahadirmemis.n11bootcamp2.controller;
 import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContract;
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,10 +68,10 @@ public class CustomerController {
   // * @param customer
   // * @return
   // */
-  //@PutMapping("/{debugCustomerId}")
-  //public Customer updateCustomer(@PathVariable Long debugCustomerId, @RequestBody Customer customer) {
-  //  return customerControllerContract.updateCustomer(customer);
-  //}
+  @PutMapping("/{debugCustomerId}")
+  public CustomerDTO updateCustomer(@PathVariable Long debugCustomerId, @RequestBody CustomerUpdateRequest request) {
+    return customerControllerContract.updateCustomer(request);
+  }
   //
   /////**
   //// * http://localhost:8080/ -> baseURL
