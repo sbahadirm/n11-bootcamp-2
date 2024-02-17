@@ -2,9 +2,11 @@ package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContract;
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
+import com.bahadirmemis.n11bootcamp2.general.RestResponse;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
 import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,9 +41,9 @@ public class CustomerController {
   //}
 
   @PostMapping
-  public CustomerDTO saveCustomer(@RequestBody CustomerSaveRequest request) {
-    CustomerDTO savedCustomer = customerControllerContract.saveCustomer(request);
-    return savedCustomer;
+  public ResponseEntity<RestResponse<CustomerDTO>> saveCustomer(@RequestBody CustomerSaveRequest request) {
+    CustomerDTO customerDTO = customerControllerContract.saveCustomer(request);
+    return ResponseEntity.ok(RestResponse.of(customerDTO));
   }
 
   ///**
