@@ -4,6 +4,7 @@ import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
 import com.bahadirmemis.n11bootcamp2.enums.EnumState;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import java.time.LocalDate;
 
 /**
  * @author bahadirmemis
@@ -20,9 +21,11 @@ public class CustomerConverter {
 
   public static Customer convertToCustomer(CustomerSaveRequest request) {
     Customer customer = new Customer();
-    customer.setName(request.name());
+    customer.setName(request.nameXXX());
     customer.setSurname(request.surname());
-    customer.setBirthDate(request.birthDate());
+    if (request.birthDate() != null){
+      customer.setBirthDate(request.birthDate());
+    }
     customer.setUsername(request.username());
     customer.setIdentityNo(request.identityNo());
     customer.setPassword(request.password());
@@ -31,4 +34,5 @@ public class CustomerConverter {
     customer.setState(EnumState.ACTIVE);
     return customer;
   }
+
 }

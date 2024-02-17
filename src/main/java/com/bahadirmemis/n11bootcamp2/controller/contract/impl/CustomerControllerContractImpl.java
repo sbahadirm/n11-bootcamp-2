@@ -1,13 +1,11 @@
 package com.bahadirmemis.n11bootcamp2.controller.contract.impl;
 
 import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContract;
-import com.bahadirmemis.n11bootcamp2.converter.CustomerConverter;
 import com.bahadirmemis.n11bootcamp2.dao.CustomerRepository;
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
-import com.bahadirmemis.n11bootcamp2.enums.EnumState;
+import com.bahadirmemis.n11bootcamp2.mapper.CustomerMapper;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,11 +22,11 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
   @Override
   public CustomerDTO saveCustomer(CustomerSaveRequest request) {
 
-    Customer customer = CustomerConverter.convertToCustomer(request);
+    Customer customer = CustomerMapper.INSTANCE.convertToCustomer(request);
 
     customer = customerRepository.save(customer);
 
-    CustomerDTO customerDTO = CustomerConverter.convertToCustomerDTO(customer);
+    CustomerDTO customerDTO = CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
 
     return customerDTO;
   }
@@ -38,11 +36,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
 
     List<Customer> customerList = customerRepository.findAll();
 
-    List<CustomerDTO> customerDTOList = new ArrayList<>();
-    for (Customer customer : customerList) {
-      CustomerDTO customerDTO = CustomerConverter.convertToCustomerDTO(customer);
-      customerDTOList.add(customerDTO);
-    }
+    List<CustomerDTO> customerDTOList = CustomerMapper.INSTANCE.convertToCustomerDTOs(customerList);
 
     return customerDTOList;
   }
