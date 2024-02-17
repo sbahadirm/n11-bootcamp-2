@@ -22,10 +22,7 @@ public class CustomerService {
   }
 
   public List<Customer> getAllCustomers() {
-    Customer bahadir = new Customer(1L, "bahadir", "memiş");
-    Customer yusuf = new Customer(2L, "yusuf", "memiş");
-
-    return Arrays.asList(bahadir, yusuf);
+    return null;
   }
 
   public Customer getCustomerById(Long id) {
