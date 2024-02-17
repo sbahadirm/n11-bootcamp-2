@@ -1,8 +1,6 @@
 package com.bahadirmemis.n11bootcamp2.mapper;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
-import com.bahadirmemis.n11bootcamp2.entity.Book;
-import com.bahadirmemis.n11bootcamp2.entity.BookDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
 import java.util.List;
@@ -23,10 +21,7 @@ public interface CustomerMapper {
   @Mapping(target = "name", source = "nameXXX")
   Customer convertToCustomer(CustomerSaveRequest request);
 
-  Book convertToBook(BookDTO bookDTO);
-
   CustomerDTO convertToCustomerDTO(Customer customer);
 
   List<CustomerDTO> convertToCustomerDTOs(List<Customer> customers);
-
 }
