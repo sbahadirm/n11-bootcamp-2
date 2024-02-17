@@ -3,6 +3,8 @@ package com.bahadirmemis.n11bootcamp2.controller;
 import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContract;
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +23,11 @@ public class CustomerController {
     this.customerControllerContract = customerControllerContract;
   }
 
-  //@GetMapping
-  //public List<Customer> getAllCustomers() {
-  //  List<Customer> allCustomers = customerControllerContract.getAllCustomers();
-  //  return allCustomers;
-  //}
+  @GetMapping
+  public List<CustomerDTO> getAllCustomers() {
+    List<CustomerDTO> allCustomers = customerControllerContract.getAllCustomers();
+    return allCustomers;
+  }
   //
   //@GetMapping("/{id}")
   //public Customer getCustomerById(@PathVariable Long id) {

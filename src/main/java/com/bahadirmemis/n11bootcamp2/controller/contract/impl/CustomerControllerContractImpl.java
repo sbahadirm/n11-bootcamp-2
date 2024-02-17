@@ -7,6 +7,8 @@ import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
 import com.bahadirmemis.n11bootcamp2.enums.EnumState;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +33,17 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     return customerDTO;
   }
 
+  @Override
+  public List<CustomerDTO> getAllCustomers() {
+
+    List<Customer> customerList = customerRepository.findAll();
+
+    List<CustomerDTO> customerDTOList = new ArrayList<>();
+    for (Customer customer : customerList) {
+      CustomerDTO customerDTO = CustomerConverter.convertToCustomerDTO(customer);
+      customerDTOList.add(customerDTO);
+    }
+
+    return customerDTOList;
+  }
 }

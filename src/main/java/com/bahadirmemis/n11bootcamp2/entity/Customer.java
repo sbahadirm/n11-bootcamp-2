@@ -1,6 +1,7 @@
 package com.bahadirmemis.n11bootcamp2.entity;
 
 import com.bahadirmemis.n11bootcamp2.enums.EnumState;
+import com.bahadirmemis.n11bootcamp2.general.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,35 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Hibernate: create table customer
- * (birth_date date,
- * state smallint check (state between 0 and 1),
- * id bigint not null,
- * email varchar(255),
- * identity_no varchar(255),
- * password varchar(255),
- * phone_number varchar(255),
- * surname varchar(255),
- * username varchar(255),
- * primary key (id))
- *
- * * name not null varchar(100),
- *
- *
- *
- * Hibernate: create table customer
- * (birth_date date,
- * id bigint not null,
- * identity_no varchar(11),
- * phone_number varchar(20),
- * state varchar(30) not null check (state in ('PASSIVE','ACTIVE')),
- * email varchar(100) not null,
- * name varchar(100) not null,
- * surname varchar(100) not null,
- * username varchar(100) not null,
- * password varchar(400) not null,
- * primary key (id))
- *
+ * id, createdAt, createdBy, updatedAt, updatedBy
  * @author bahadirmemis
  */
 @NoArgsConstructor
@@ -54,7 +27,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "CUSTOMER")
-public class Customer {
+public class Customer extends BaseEntity {
 
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Customer")
   @SequenceGenerator(name = "Customer", sequenceName = "CUSTOMER_ID_SEQ")
