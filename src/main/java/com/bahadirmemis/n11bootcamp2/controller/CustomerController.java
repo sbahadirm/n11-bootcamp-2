@@ -4,16 +4,19 @@ import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContr
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.general.RestResponse;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import com.bahadirmemis.n11bootcamp2.request.CustomerUpdatePasswordRequest;
 import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -64,15 +67,15 @@ public class CustomerController {
     CustomerDTO customerDTO = customerControllerContract.updateCustomer(request);
     return ResponseEntity.ok(RestResponse.of(customerDTO));
   }
-  //
-  /////**
-  //// * http://localhost:8080/ -> baseURL
-  //// * api/customers -> baseURI
-  //// * /1 -> PathVariable
-  //// * ?name=sadık bahadır -> RequestParam
-  //// */
-  ////@PatchMapping("/{id}")
-  ////public Customer updateCustomerPassword(@PathVariable Long id, @RequestParam String name) {
-  ////  return customerControllerContract.updateCustomerPassword(id, name);
-  ////}
+
+  /**
+   * http://localhost:8080/ -> baseURL
+   * api/customers -> baseURI
+   * /1 -> PathVariable
+   * ?name=sadık bahadır -> RequestParam
+   */
+  @PatchMapping("/{id}/password")
+  public CustomerDTO updateCustomerPassword(@PathVariable Long id, @RequestBody CustomerUpdatePasswordRequest request) {
+    return customerControllerContract.updateCustomerPassword(id, request);
+  }
 }

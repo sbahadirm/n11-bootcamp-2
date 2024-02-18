@@ -40,4 +40,16 @@ public class GeneralControllerAdvice extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler
+  public final ResponseEntity<Object> handleRTExceptions(N11BusinessException e, WebRequest request) {
+
+    String message = e.getBaseErrorMessage().getMessage();
+    String description = request.getDescription(false);
+
+    var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
+    var restResponse = RestResponse.error(generalErrorMessages);
+
+    return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
+  }
 }
