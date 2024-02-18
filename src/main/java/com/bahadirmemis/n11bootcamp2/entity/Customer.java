@@ -1,6 +1,6 @@
 package com.bahadirmemis.n11bootcamp2.entity;
 
-import com.bahadirmemis.n11bootcamp2.enums.EnumState;
+import com.bahadirmemis.n11bootcamp2.enums.EnumStatus;
 import com.bahadirmemis.n11bootcamp2.general.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,6 +60,6 @@ public class Customer extends BaseEntity {
   private String email;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "STATE", length = 30, nullable = false)
-  private EnumState state;
+  @Column(name = "STATUS", length = 30, nullable = false)
+  private EnumStatus status;
 }

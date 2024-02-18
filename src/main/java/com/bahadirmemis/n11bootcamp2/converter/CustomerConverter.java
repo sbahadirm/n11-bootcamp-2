@@ -2,9 +2,8 @@ package com.bahadirmemis.n11bootcamp2.converter;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
-import com.bahadirmemis.n11bootcamp2.enums.EnumState;
+import com.bahadirmemis.n11bootcamp2.enums.EnumStatus;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
-import java.time.LocalDate;
 
 /**
  * @author bahadirmemis
@@ -15,7 +14,7 @@ public class CustomerConverter {
     CustomerDTO customerDTO =
         new CustomerDTO(customer.getId(), customer.getName(), customer.getSurname(), customer.getBirthDate(),
                         customer.getUsername(), customer.getIdentityNo(), customer.getPhoneNumber(),
-                        customer.getEmail(), customer.getState());
+                        customer.getEmail(), customer.getStatus());
     return customerDTO;
   }
 
@@ -31,7 +30,7 @@ public class CustomerConverter {
     customer.setPassword(request.password());
     customer.setPhoneNumber(request.phoneNumber());
     customer.setEmail(request.email());
-    customer.setState(EnumState.ACTIVE);
+    customer.setStatus(EnumStatus.ACTIVE);
     return customer;
   }
 

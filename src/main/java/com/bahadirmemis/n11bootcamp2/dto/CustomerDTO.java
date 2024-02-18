@@ -1,6 +1,6 @@
 package com.bahadirmemis.n11bootcamp2.dto;
 
-import com.bahadirmemis.n11bootcamp2.enums.EnumState;
+import com.bahadirmemis.n11bootcamp2.enums.EnumStatus;
 import java.time.LocalDate;
 
 /**
@@ -14,6 +14,6 @@ public record CustomerDTO(Long id,
                           String identityNo,
                           String phoneNumber,
                           String email,
-                          EnumState state) {
+                          EnumStatus state) {
 
 }
