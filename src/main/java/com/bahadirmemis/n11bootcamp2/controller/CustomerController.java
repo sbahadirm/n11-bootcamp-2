@@ -7,6 +7,7 @@ import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
 import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,24 +47,11 @@ public class CustomerController {
     return ResponseEntity.ok(RestResponse.of(customerDTO));
   }
 
-  ///**
-  // * DELETE -> api/customers/66
-  // * @param id
-  // */
-  //@DeleteMapping("/{id}")
-  //public void deleteCustomer(@PathVariable Long id) {
-  //  customerControllerContract.deleteCustomer(id);
-  //}
-  //
-  ///**
-  // * DELETE -> api/customers/with-username/sbahadirm
-  // * @param username
-  // */
-  //@DeleteMapping("/{username}")
-  //public void deleteCustomer(@PathVariable String username) {
-  //  customerControllerContract.deleteCustomer(username);
-  //}
-  //
+  @DeleteMapping("/{id}")
+  public void deleteCustomer(@PathVariable Long id) {
+    customerControllerContract.deleteCustomer(id);
+  }
+
   ///**
   // * PUT -> api/customers/6478545
   // * @param debugCustomerId

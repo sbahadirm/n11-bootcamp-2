@@ -60,4 +60,9 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     Customer customer = customerEntityService.findByIdWithControl(id);
     return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }
+
+  @Override
+  public void deleteCustomer(Long id) {
+    customerEntityService.delete(id);
+  }
 }

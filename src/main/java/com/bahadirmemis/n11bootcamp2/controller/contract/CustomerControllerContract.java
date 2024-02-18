@@ -17,4 +17,6 @@ public interface CustomerControllerContract {
   CustomerDTO updateCustomer(CustomerUpdateRequest request);
 
   CustomerDTO getCustomerById(Long id);
+
+  void deleteCustomer(Long id);
 }
