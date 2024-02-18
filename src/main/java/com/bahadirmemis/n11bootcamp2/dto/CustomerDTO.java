@@ -14,6 +14,6 @@ public record CustomerDTO(Long id,
                           String identityNo,
                           String phoneNumber,
                           String email,
-                          EnumStatus state) {
+                          EnumStatus status) {
 
 }

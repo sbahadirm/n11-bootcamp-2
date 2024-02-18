@@ -3,6 +3,7 @@ package com.bahadirmemis.n11bootcamp2.controller.contract.impl;
 import com.bahadirmemis.n11bootcamp2.controller.contract.CustomerControllerContract;
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
+import com.bahadirmemis.n11bootcamp2.enums.EnumStatus;
 import com.bahadirmemis.n11bootcamp2.errormessage.CustomerErrorMessage;
 import com.bahadirmemis.n11bootcamp2.general.N11BusinessException;
 import com.bahadirmemis.n11bootcamp2.mapper.CustomerMapper;
@@ -74,7 +75,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
 
     Customer customer = customerEntityService.findByIdWithControl(id);
 
-    if (!customer.getPassword().equals(request.oldPass())){
+    if (!customer.getPassword().equals(request.oldPass())) {
       throw new N11BusinessException(CustomerErrorMessage.INVALID_OLD_PASSWORD);
     }
 
@@ -84,6 +85,21 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
 
     customer.setPassword(request.newPass());
     customer = customerEntityService.save(customer);
+
+    return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
+  }
+
+  @Override
+  public CustomerDTO getCustomerByUsername(String username) {
+    Customer customer = customerEntityService.findCustomerByUsername(username);
+
+    List<Customer> customerList =
+        customerEntityService.findByNameAndSurnameAndStatus(customer.getName(), customer.getSurname(),
+                                                            EnumStatus.ACTIVE);
+
+    for (Customer customer1 : customerList) {
+      System.out.println(customer1);
+    }
 
     return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }

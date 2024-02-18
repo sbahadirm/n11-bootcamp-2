@@ -19,7 +19,7 @@ public interface CustomerMapper {
 
   CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
-  @Mapping(target = "state", constant = "PASSIVE")
+  @Mapping(target = "status", constant = "PASSIVE")
   @Mapping(target = "name", source = "nameXXX")
   Customer convertToCustomer(CustomerSaveRequest request);
 

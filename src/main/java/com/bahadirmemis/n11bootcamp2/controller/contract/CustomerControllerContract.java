@@ -22,4 +22,6 @@ public interface CustomerControllerContract {
   void deleteCustomer(Long id);
 
   CustomerDTO updateCustomerPassword(Long id, CustomerUpdatePasswordRequest request);
+
+  CustomerDTO getCustomerByUsername(String username);
 }

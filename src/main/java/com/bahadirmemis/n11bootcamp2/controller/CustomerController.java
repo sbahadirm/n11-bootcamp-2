@@ -44,6 +44,12 @@ public class CustomerController {
     return ResponseEntity.ok(RestResponse.of(customerById));
   }
 
+  @GetMapping("/with-username/{username}")
+  public ResponseEntity<RestResponse<CustomerDTO>> getCustomerByUsername(@PathVariable String username) {
+    CustomerDTO customerById = customerControllerContract.getCustomerByUsername(username);
+    return ResponseEntity.ok(RestResponse.of(customerById));
+  }
+
   @PostMapping
   public ResponseEntity<RestResponse<CustomerDTO>> saveCustomer(@RequestBody CustomerSaveRequest request) {
     CustomerDTO customerDTO = customerControllerContract.saveCustomer(request);

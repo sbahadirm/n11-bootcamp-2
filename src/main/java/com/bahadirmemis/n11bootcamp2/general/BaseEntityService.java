@@ -4,11 +4,13 @@ import com.bahadirmemis.n11bootcamp2.exceptions.ItemNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import lombok.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author bahadirmemis
  */
+@Getter
 public abstract class BaseEntityService<E extends BaseEntity, R extends JpaRepository<E, Long>> {
 
   private final R repository;
@@ -71,4 +73,5 @@ public abstract class BaseEntityService<E extends BaseEntity, R extends JpaRepos
   public boolean existById(Long id){
     return repository.existsById(id);
   }
+
 }
