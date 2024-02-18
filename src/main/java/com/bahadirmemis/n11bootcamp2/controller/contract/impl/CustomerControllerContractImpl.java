@@ -45,7 +45,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
   @Override
   public CustomerDTO updateCustomer(CustomerUpdateRequest request) {
 
-    Customer customer = customerEntityService.findById(request.id());
+    Customer customer = customerEntityService.findByIdWithControl(request.id());
     CustomerMapper.INSTANCE.updateCustomerFields(customer, request);
 
     customerEntityService.save(customer);
@@ -53,5 +53,11 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     CustomerDTO customerDTO = CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
 
     return customerDTO;
+  }
+
+  @Override
+  public CustomerDTO getCustomerById(Long id) {
+    Customer customer = customerEntityService.findByIdWithControl(id);
+    return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }
 }

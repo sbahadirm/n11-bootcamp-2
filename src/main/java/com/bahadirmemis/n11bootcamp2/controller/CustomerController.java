@@ -29,16 +29,16 @@ public class CustomerController {
   }
 
   @GetMapping
-  public List<CustomerDTO> getAllCustomers() {
+  public ResponseEntity<RestResponse<List<CustomerDTO>>> getAllCustomers() {
     List<CustomerDTO> allCustomers = customerControllerContract.getAllCustomers();
-    return allCustomers;
+    return ResponseEntity.ok(RestResponse.of(allCustomers));
   }
-  //
-  //@GetMapping("/{id}")
-  //public Customer getCustomerById(@PathVariable Long id) {
-  //  Customer customerById = customerControllerContract.getCustomerById(id);
-  //  return customerById;
-  //}
+
+  @GetMapping("/{id}")
+  public ResponseEntity<RestResponse<CustomerDTO>> getCustomerById(@PathVariable Long id) {
+    CustomerDTO customerById = customerControllerContract.getCustomerById(id);
+    return ResponseEntity.ok(RestResponse.of(customerById));
+  }
 
   @PostMapping
   public ResponseEntity<RestResponse<CustomerDTO>> saveCustomer(@RequestBody CustomerSaveRequest request) {
@@ -71,8 +71,10 @@ public class CustomerController {
   // * @return
   // */
   @PutMapping("/{debugCustomerId}")
-  public CustomerDTO updateCustomer(@PathVariable Long debugCustomerId, @RequestBody CustomerUpdateRequest request) {
-    return customerControllerContract.updateCustomer(request);
+  public ResponseEntity<RestResponse<CustomerDTO>> updateCustomer(@PathVariable Long debugCustomerId,
+                                                                  @RequestBody CustomerUpdateRequest request) {
+    CustomerDTO customerDTO = customerControllerContract.updateCustomer(request);
+    return ResponseEntity.ok(RestResponse.of(customerDTO));
   }
   //
   /////**

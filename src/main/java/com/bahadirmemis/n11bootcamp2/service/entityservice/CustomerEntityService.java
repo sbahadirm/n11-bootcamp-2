@@ -1,8 +1,12 @@
 package com.bahadirmemis.n11bootcamp2.service.entityservice;
 
 import com.bahadirmemis.n11bootcamp2.dao.CustomerRepository;
+import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
+import com.bahadirmemis.n11bootcamp2.exceptions.ItemNotFoundException;
 import com.bahadirmemis.n11bootcamp2.general.BaseAdditionalFields;
+import com.bahadirmemis.n11bootcamp2.general.GeneralErrorMessage;
+import com.bahadirmemis.n11bootcamp2.general.N11BusinessException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,8 +48,16 @@ public class CustomerEntityService {
     return customerRepository.findAll();
   }
 
-  public Customer findById(Long id){
+  public Customer findByIdWithControl(Long id){
     Optional<Customer> optionalCustomer = customerRepository.findById(id);
-    return optionalCustomer.get();
+    Customer customer;
+    if (optionalCustomer.isPresent()){
+      customer =optionalCustomer.get();
+    } else {
+      throw new ItemNotFoundException(GeneralErrorMessage.ITEM_NOT_FOUND);
+      //throw new ItemNotFoundException("Data bulunamadı!");
+    }
+
+    return customer;
   }
 }
