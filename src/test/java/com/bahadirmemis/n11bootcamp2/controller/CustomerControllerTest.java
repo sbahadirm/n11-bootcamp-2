@@ -1,16 +1,17 @@
 package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.N11Bootcamp2Application;
-import com.bahadirmemis.n11bootcamp2.general.RestResponse;
+import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,14 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = {N11Bootcamp2Application.class})
-class CustomerControllerTest {
+class CustomerControllerTest extends BaseControllerTest {
 
   @Autowired
   private WebApplicationContext context;
 
   private MockMvc mockMvc;
-
-  private ObjectMapper objectMapper;
 
   @BeforeEach
   void setUp() {
@@ -46,12 +45,50 @@ class CustomerControllerTest {
                                  .andExpect(MockMvcResultMatchers.status().isOk())
                                  .andReturn();
 
-    MockHttpServletResponse response = mvcResult.getResponse();
-    String content = response.getContentAsString();
+    boolean success = isSuccess(mvcResult);
+    assertTrue(success);
+  }
 
-    RestResponse restResponse = objectMapper.readValue(content, RestResponse.class);
+  @Test
+  void shouldSaveCustomer() throws Exception {
 
-    boolean success = restResponse.isSuccess();
+    String requestAsString = "{\n"
+                             + "  \"nameXXX\": \"controllertest\",\n"
+                             + "  \"surname\": \"string\",\n"
+                             + "  \"birthDate\": \"2024-02-24\",\n"
+                             + "  \"username\": \"string\",\n"
+                             + "  \"identityNo\": \"string\",\n"
+                             + "  \"password\": \"string\",\n"
+                             + "  \"phoneNumber\": \"string\",\n"
+                             + "  \"email\": \"string@mail.com\"\n"
+                             + "}";
+
+    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/customers")
+                                                                .content(requestAsString)
+                                                                .contentType(MediaType.APPLICATION_JSON))
+                                 .andExpect(MockMvcResultMatchers.status().isOk())
+                                 .andReturn();
+
+    boolean success = isSuccess(mvcResult);
+    assertTrue(success);
+  }
+
+  @Test
+  void shouldSaveCustomer2() throws Exception {
+
+    CustomerSaveRequest request =
+        new CustomerSaveRequest("controllertest2", "surname", LocalDate.now(), "username", "34738434", "pass", "phone",
+                                "email");
+
+    String requestAsString = objectMapper.writeValueAsString(request);
+
+    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/customers")
+                                                                .content(requestAsString)
+                                                                .contentType(MediaType.APPLICATION_JSON))
+                                 .andExpect(MockMvcResultMatchers.status().isOk())
+                                 .andReturn();
+
+    boolean success = isSuccess(mvcResult);
     assertTrue(success);
   }
 }
