@@ -2,6 +2,7 @@ package com.bahadirmemis.n11bootcamp2.general;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class RestResponse<T> {
 
   private T data;
