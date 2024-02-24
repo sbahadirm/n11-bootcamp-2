@@ -1,0 +1,1 @@
+insert into public.customer (create_date,creator_id,update_date,updater_id,birth_date,email,identity_no,name,password,phone_number,status,surname,username,id) values (null,1,null,1,null,'email','identity_no','name','password','phone_number','ACTIVE','surname','username',18)
