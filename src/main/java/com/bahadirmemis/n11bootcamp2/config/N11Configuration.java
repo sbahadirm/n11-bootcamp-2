@@ -1,4 +1,4 @@
-package com.bahadirmemis.n11bootcamp2.controller;
+package com.bahadirmemis.n11bootcamp2.config;
 
 import com.bahadirmemis.n11bootcamp2.service.ResponseConverter;
 import com.bahadirmemis.n11bootcamp2.service.ResponseConverterJson;
