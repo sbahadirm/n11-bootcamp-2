@@ -180,10 +180,11 @@ class CustomerControllerContractImplTest {
 
     //given
     Long id = 18L;
-    String oldPass = "1231231234";
-    String newPass = "12312312345";
-    String newPass2 = "12312312345";
-    CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+    //String oldPass = "1231231234";
+    //String newPass = "12312312345";
+    //String newPass2 = "12312312345";
+    //CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+    CustomerUpdatePasswordRequest request = Mockito.mock(CustomerUpdatePasswordRequest.class);
 
     Customer customer = new Customer();
     customer.setId(id);
@@ -207,8 +208,11 @@ class CustomerControllerContractImplTest {
     Long id = 18L;
     String oldPass = "1231231234";
     String newPass = "1231231234";
-    String newPass2 = "12312312345";
-    CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+    //String newPass2 = "12312312345";
+    //CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+    CustomerUpdatePasswordRequest request = Mockito.mock(CustomerUpdatePasswordRequest.class);
+    Mockito.when(request.oldPass()).thenReturn(oldPass);
+    Mockito.when(request.newPass()).thenReturn(newPass);
 
     Customer customer = new Customer();
     customer.setId(id);
