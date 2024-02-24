@@ -1,4 +1,4 @@
-package com.bahadirmemis.n11bootcamp2;
+package com.bahadirmemis.n11bootcamp2.test;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
