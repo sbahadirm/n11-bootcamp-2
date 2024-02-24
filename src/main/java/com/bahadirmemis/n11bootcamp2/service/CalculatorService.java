@@ -9,13 +9,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculatorService {
 
-  /**
-   * value1= 24
-   * value1= 46
-   *
-   * result= 70;
-   */
+
+    /**
+     * value1= 24
+     * value1= 46
+     *
+     * result= 70;
+     */
   public static BigDecimal sum(BigDecimal value1, BigDecimal value2){
+    if (value1 == null){
+      value1 = BigDecimal.ZERO;
+    }
+    if (value2 == null){
+      value2 = BigDecimal.ZERO;
+    }
     return value1.add(value2);
   }
 }

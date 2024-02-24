@@ -27,4 +27,26 @@ class CalculatorServiceTest {
     //}
   }
 
+  @Test
+  void shouldSumWhenValue1IsNull() {
+
+    BigDecimal value1 = null;
+    BigDecimal value2 = BigDecimal.valueOf(46);
+
+    BigDecimal result = CalculatorService.sum(value1, value2);
+
+    assertEquals(BigDecimal.valueOf(46), result);
+  }
+
+  @Test
+  void shouldSumWhenValue2IsNull() {
+
+    BigDecimal value1 = BigDecimal.valueOf(46);
+    BigDecimal value2 = null;
+
+    BigDecimal result = CalculatorService.sum(value1, value2);
+
+    assertEquals(BigDecimal.valueOf(46), result);
+  }
+
 }
