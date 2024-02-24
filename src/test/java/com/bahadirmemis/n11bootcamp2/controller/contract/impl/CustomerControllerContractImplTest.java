@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,6 +34,9 @@ class CustomerControllerContractImplTest {
 
   @InjectMocks
   private CustomerControllerContractImpl customerControllerContractImpl;
+
+  @Captor
+  private ArgumentCaptor<Customer> customerArgumentCaptor;
 
   @Test
   void shouldGetAllCustomers() {
@@ -120,6 +126,12 @@ class CustomerControllerContractImplTest {
     CustomerDTO result = customerControllerContractImpl.updateCustomer(request);
 
     //then
+    InOrder inOrder = Mockito.inOrder(customerEntityService);
+    inOrder.verify(customerEntityService).findByIdWithControl(request.id());
+    inOrder.verify(customerEntityService).testVoidMethod(request.id(), request.name(), customer);
+    inOrder.verify(customerEntityService).save(customer);
+    inOrder.verifyNoMoreInteractions();
+
     assertEquals(id, result.id());
     assertEquals(request.name(), result.name());
     assertEquals(request.surname(), result.surname());
@@ -150,6 +162,14 @@ class CustomerControllerContractImplTest {
     CustomerDTO result = customerControllerContractImpl.updateCustomerPassword(id, request);
 
     //then
+    InOrder inOrder = Mockito.inOrder(customerEntityService);
+    inOrder.verify(customerEntityService).findByIdWithControl(id);
+    inOrder.verify(customerEntityService).save(customerArgumentCaptor.capture());
+    inOrder.verifyNoMoreInteractions();
+
+    Customer customerArgumentCaptorValue = customerArgumentCaptor.getValue();
+    assertEquals(newPass, customerArgumentCaptorValue.getPassword());
+
     assertEquals(id, result.id());
     assertEquals(customer.getName(), result.name());
     assertEquals(customer.getSurname(), result.surname());
