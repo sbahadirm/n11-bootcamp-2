@@ -2,8 +2,12 @@ package com.bahadirmemis.n11bootcamp2.controller.contract.impl;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.entity.Customer;
-import com.bahadirmemis.n11bootcamp2.service.CalculatorService;
+import com.bahadirmemis.n11bootcamp2.errormessage.CustomerErrorMessage;
+import com.bahadirmemis.n11bootcamp2.general.N11BusinessException;
+import com.bahadirmemis.n11bootcamp2.request.CustomerUpdatePasswordRequest;
+import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import com.bahadirmemis.n11bootcamp2.service.entityservice.CustomerEntityService;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -13,7 +17,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author bahadirmemis
@@ -57,14 +62,13 @@ class CustomerControllerContractImplTest {
     //then
     assertEquals(customers.size(), results.size());
 
-    for (int i = 0; i < results.size(); i++){
+    for (int i = 0; i < results.size(); i++) {
       CustomerDTO result = results.get(i);
       Customer eachCustomer = customers.get(i);
 
       assertEquals(eachCustomer.getName(), result.name());
       assertEquals(eachCustomer.getSurname(), result.surname());
     }
-
   }
 
   @Test
@@ -82,12 +86,122 @@ class CustomerControllerContractImplTest {
     //when
     Mockito.when(customerEntityService.findByIdWithControl(Mockito.anyLong())).thenReturn(customer);
 
-    CustomerDTO customerDTO = customerControllerContractImpl.getCustomerById(19L);
+    CustomerDTO result = customerControllerContractImpl.getCustomerById(19L);
 
     //then
 
-    assertEquals(id, customerDTO.id());
-    assertEquals(name, customerDTO.name());
-    assertEquals(surname, customerDTO.surname());
+    assertEquals(id, result.id());
+    assertEquals(name, result.name());
+    assertEquals(surname, result.surname());
+  }
+
+  @Test
+  void shouldUpdateCustomer() {
+
+    //given
+    CustomerUpdateRequest request = new CustomerUpdateRequest(1L, "Bahadır", "Memiş",
+                                                              LocalDate.of(1991, 10, 5),
+                                                              "5468447654", "sbahadirm@gmail.com");
+
+    Long id = 18L;
+    String name = "name1";
+    String surname = "surname1";
+    Customer customer = new Customer();
+    customer.setId(id);
+    customer.setName(name);
+    customer.setSurname(surname);
+
+    //when
+    Mockito.when(customerEntityService.findByIdWithControl(Mockito.anyLong())).thenReturn(customer);
+    Mockito.doNothing()
+           .when(customerEntityService)
+           .testVoidMethod(Mockito.anyLong(), Mockito.anyString(), Mockito.any(Customer.class));
+
+    CustomerDTO result = customerControllerContractImpl.updateCustomer(request);
+
+    //then
+    assertEquals(id, result.id());
+    assertEquals(request.name(), result.name());
+    assertEquals(request.surname(), result.surname());
+    assertEquals(request.birthDate(), result.birthDate());
+    assertEquals(request.phoneNumber(), result.phoneNumber());
+    assertEquals(request.email(), result.email());
+  }
+
+  @Test
+  void shouldUpdateCustomerPassword(){
+
+    //given
+    Long id = 18L;
+    String oldPass = "1231231234";
+    String newPass = "12312312345";
+    String newPass2 = "12312312345";
+    CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+
+    Customer customer = new Customer();
+    customer.setId(id);
+    customer.setName("name");
+    customer.setSurname("surname");
+    customer.setPassword(oldPass);
+
+    //when
+    Mockito.when(customerEntityService.findByIdWithControl(Mockito.anyLong())).thenReturn(customer);
+
+    CustomerDTO result = customerControllerContractImpl.updateCustomerPassword(id, request);
+
+    //then
+    assertEquals(id, result.id());
+    assertEquals(customer.getName(), result.name());
+    assertEquals(customer.getSurname(), result.surname());
+  }
+
+  @Test
+  void shouldNotUpdateCustomerPasswordWhenOldPassIsWrong(){
+
+    //given
+    Long id = 18L;
+    String oldPass = "1231231234";
+    String newPass = "12312312345";
+    String newPass2 = "12312312345";
+    CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+
+    Customer customer = new Customer();
+    customer.setId(id);
+    customer.setName("name");
+    customer.setSurname("surname");
+    customer.setPassword("oldPass");
+
+    //when
+    Mockito.when(customerEntityService.findByIdWithControl(Mockito.anyLong())).thenReturn(customer);
+
+    N11BusinessException n11BusinessException = assertThrows(N11BusinessException.class,
+                                                             () -> customerControllerContractImpl.updateCustomerPassword(
+                                                                 id, request));
+    assertEquals(CustomerErrorMessage.INVALID_OLD_PASSWORD, n11BusinessException.getBaseErrorMessage());
+  }
+
+  @Test
+  void shouldNotUpdateCustomerPasswordWhenNewPasswordsAreDifferent(){
+
+    //given
+    Long id = 18L;
+    String oldPass = "1231231234";
+    String newPass = "1231231234";
+    String newPass2 = "12312312345";
+    CustomerUpdatePasswordRequest request = new CustomerUpdatePasswordRequest(oldPass, newPass, newPass2);
+
+    Customer customer = new Customer();
+    customer.setId(id);
+    customer.setName("name");
+    customer.setSurname("surname");
+    customer.setPassword(oldPass);
+
+    //when
+    Mockito.when(customerEntityService.findByIdWithControl(Mockito.anyLong())).thenReturn(customer);
+
+    N11BusinessException n11BusinessException = assertThrows(N11BusinessException.class,
+                                                             () -> customerControllerContractImpl.updateCustomerPassword(
+                                                                 id, request));
+    assertEquals(CustomerErrorMessage.NEW_PASSWORDS_DID_NOT_MATCH, n11BusinessException.getBaseErrorMessage());
   }
 }

@@ -52,6 +52,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     Customer customer = customerEntityService.findByIdWithControl(request.id());
     CustomerMapper.INSTANCE.updateCustomerFields(customer, request);
 
+    customerEntityService.testVoidMethod(request.id(), request.name(), customer);
     customerEntityService.save(customer);
 
     CustomerDTO customerDTO = CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
@@ -84,7 +85,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     }
 
     customer.setPassword(request.newPass());
-    customer = customerEntityService.save(customer);
+    customerEntityService.save(customer);
 
     return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }

@@ -24,4 +24,8 @@ public class CustomerEntityService extends BaseEntityService<Customer, CustomerR
   public List<Customer> findByNameAndSurnameAndStatus(String name, String surname, EnumStatus status){
     return getRepository().findAllByNameAndSurnameAndStatus(name, surname, status);
   }
+
+  public void testVoidMethod(Long id, String name, Customer customer){
+
+  }
 }
