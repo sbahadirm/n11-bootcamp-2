@@ -91,4 +91,14 @@ class CustomerControllerTest extends BaseControllerTest {
     boolean success = isSuccess(mvcResult);
     assertTrue(success);
   }
+
+  @Test
+  void shouldGetByIdCustomers() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/1001"))
+                                 .andExpect(MockMvcResultMatchers.status().isOk())
+                                 .andReturn();
+
+    boolean success = isSuccess(mvcResult);
+    assertTrue(success);
+  }
 }
