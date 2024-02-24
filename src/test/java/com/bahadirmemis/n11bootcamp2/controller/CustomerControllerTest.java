@@ -2,6 +2,7 @@ package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.N11Bootcamp2Application;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
+import com.bahadirmemis.n11bootcamp2.request.CustomerUpdatePasswordRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDate;
@@ -99,6 +100,23 @@ class CustomerControllerTest extends BaseControllerTest {
                                  .andReturn();
 
     boolean success = isSuccess(mvcResult);
+    assertTrue(success);
+  }
+
+  @Test
+  void shouldUpdatePassword() throws Exception {
+
+    CustomerUpdatePasswordRequest request  = new CustomerUpdatePasswordRequest("123", "1234", "1234");
+    String requestAsString = objectMapper.writeValueAsString(request);
+
+    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/customers/1002/password")
+                                                                .content(requestAsString)
+                                                                .contentType(MediaType.APPLICATION_JSON))
+                                 .andExpect(MockMvcResultMatchers.status().isOk())
+                                 .andReturn();
+
+    boolean success = isSuccess(mvcResult);
+
     assertTrue(success);
   }
 }
