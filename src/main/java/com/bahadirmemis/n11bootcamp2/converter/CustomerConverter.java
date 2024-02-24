@@ -10,12 +10,13 @@ import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
  */
 public class CustomerConverter {
 
+  private CustomerConverter() {
+  }
+
   public static CustomerDTO convertToCustomerDTO(Customer customer) {
-    CustomerDTO customerDTO =
-        new CustomerDTO(customer.getId(), customer.getName(), customer.getSurname(), customer.getBirthDate(),
+    return new CustomerDTO(customer.getId(), customer.getName(), customer.getSurname(), customer.getBirthDate(),
                         customer.getUsername(), customer.getIdentityNo(), customer.getPhoneNumber(),
                         customer.getEmail(), customer.getStatus());
-    return customerDTO;
   }
 
   public static Customer convertToCustomer(CustomerSaveRequest request) {

@@ -2,7 +2,6 @@ package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.controller.contract.AccountControllerContract;
 import com.bahadirmemis.n11bootcamp2.dto.AccountDTO;
-import com.bahadirmemis.n11bootcamp2.dto.CustomerDTO;
 import com.bahadirmemis.n11bootcamp2.general.RestResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

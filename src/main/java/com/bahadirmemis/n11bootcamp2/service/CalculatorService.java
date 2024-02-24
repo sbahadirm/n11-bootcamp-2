@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculatorService {
 
+  private CalculatorService(){
+
+  }
 
     /**
      * value1= 24

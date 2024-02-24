@@ -13,6 +13,7 @@ import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
 import com.bahadirmemis.n11bootcamp2.service.entityservice.CustomerEntityService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CustomerControllerContractImpl implements CustomerControllerContract {
 
   private final CustomerEntityService customerEntityService;
@@ -31,9 +33,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
 
     customer = customerEntityService.save(customer);
 
-    CustomerDTO customerDTO = CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
-
-    return customerDTO;
+    return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }
 
   @Override
@@ -41,9 +41,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
 
     List<Customer> customerList = customerEntityService.findAll();
 
-    List<CustomerDTO> customerDTOList = CustomerMapper.INSTANCE.convertToCustomerDTOs(customerList);
-
-    return customerDTOList;
+    return CustomerMapper.INSTANCE.convertToCustomerDTOs(customerList);
   }
 
   @Override
@@ -55,9 +53,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
     customerEntityService.testVoidMethod(request.id(), request.name(), customer);
     customerEntityService.save(customer);
 
-    CustomerDTO customerDTO = CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
-
-    return customerDTO;
+    return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
   }
 
   @Override
@@ -99,7 +95,7 @@ public class CustomerControllerContractImpl implements CustomerControllerContrac
                                                             EnumStatus.ACTIVE);
 
     for (Customer customer1 : customerList) {
-      System.out.println(customer1);
+      log.info(customer1.getUsername());
     }
 
     return CustomerMapper.INSTANCE.convertToCustomerDTO(customer);
