@@ -1,11 +1,14 @@
 package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerMailInfoDTO;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author bahadirmemis
@@ -32,12 +35,14 @@ public class CustomerMailController {
   @GetMapping
   public CustomerMailInfoDTO test() {
 
-    var url = "http://localhost:8081/api/v1/mails/1/infos";
+    var url = "http://localhost:8081/api/v1/mails/{id}/infos";
+    Map<String, String> params = new HashMap<>();
+    params.put("id", "1");
 
     var restTemplate = new RestTemplate();
     //ResponseEntity<String> stringResponseEntity = restTemplate.getForEntity(url, String.class);
     //String body = stringResponseEntity.getBody();
-    var customerMailInfoDTOResponseEntity = restTemplate.getForEntity(url, CustomerMailInfoDTO.class);
+    var customerMailInfoDTOResponseEntity = restTemplate.getForEntity(url, CustomerMailInfoDTO.class, params);
     var customerMailInfoDTO = customerMailInfoDTOResponseEntity.getBody();
 
     /**
@@ -48,6 +53,25 @@ public class CustomerMailController {
      *    "topic":"Naber oğlum!"
      * }
      */
+    return customerMailInfoDTO;
+  }
+
+  @GetMapping("/test-with-query-params")
+  public CustomerMailInfoDTO test2() {
+
+    Map<String, String> params = new HashMap<>();
+    params.put("id", "1");
+    params.put("topic-name", "test");
+
+    String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/mails/{id}/infos")
+                                     .queryParam("topic", "{topic-name}")
+                                     .buildAndExpand(params)
+                                     .toUriString();
+
+    var restTemplate = new RestTemplate();
+    var customerMailInfoDTOResponseEntity = restTemplate.getForEntity(url, CustomerMailInfoDTO.class, params);
+    var customerMailInfoDTO = customerMailInfoDTOResponseEntity.getBody();
+
     return customerMailInfoDTO;
   }
 }
