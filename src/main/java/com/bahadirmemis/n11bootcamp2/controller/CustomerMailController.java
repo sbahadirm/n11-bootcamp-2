@@ -102,4 +102,17 @@ public class CustomerMailController {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.put(url, sendMailRequestDTO);
   }
+
+  @GetMapping("/test-delete")
+  public void delete(){
+
+    String url = "http://localhost:8081/api/v1/mails/{id}";
+
+    Map<String, String> params = new HashMap<>();
+    params.put("id", "1");
+
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.delete(url, params);
+
+  }
 }
