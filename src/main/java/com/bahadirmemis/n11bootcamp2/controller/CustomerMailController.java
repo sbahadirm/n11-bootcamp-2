@@ -1,6 +1,7 @@
 package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerMailInfoDTO;
+import com.bahadirmemis.n11bootcamp2.dto.SendMailRequestDTO;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,21 @@ public class CustomerMailController {
     var restTemplate = new RestTemplate();
     var customerMailInfoDTOResponseEntity = restTemplate.getForEntity(url, CustomerMailInfoDTO.class, params);
     var customerMailInfoDTO = customerMailInfoDTOResponseEntity.getBody();
+
+    return customerMailInfoDTO;
+  }
+
+  @GetMapping("test-send-mail")
+  public CustomerMailInfoDTO testSendMail() {
+
+    String url = "http://localhost:8081/api/v1/mails";
+
+    SendMailRequestDTO sendMailRequestDTO =
+        new SendMailRequestDTO("yusuf@gmail.com", "selam evlat!", "naber nasılsın?");
+
+    RestTemplate restTemplate = new RestTemplate();
+    var responseEntity = restTemplate.postForEntity(url, sendMailRequestDTO, CustomerMailInfoDTO.class);
+    var customerMailInfoDTO = responseEntity.getBody();
 
     return customerMailInfoDTO;
   }
