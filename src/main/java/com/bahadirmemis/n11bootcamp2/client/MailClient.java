@@ -1,6 +1,7 @@
 package com.bahadirmemis.n11bootcamp2.client;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerMailInfoDTO;
+import com.bahadirmemis.n11bootcamp2.dto.SendBatchMailRequestDTO;
 import com.bahadirmemis.n11bootcamp2.dto.SendMailRequestDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(value = "mail", url = "http://localhost:8081/api/v1/mails")
 public interface MailClient {
+
+  @PostMapping("/batch")
+  Integer sendBatchMail(@RequestBody SendBatchMailRequestDTO request);
 
   @GetMapping("/default")
   String getDefaultMailAddress();
