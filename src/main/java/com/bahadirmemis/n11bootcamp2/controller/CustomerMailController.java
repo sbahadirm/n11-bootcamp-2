@@ -5,6 +5,11 @@ import com.bahadirmemis.n11bootcamp2.dto.SendMailRequestDTO;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +24,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class CustomerMailController {
 
+  @Value("${mail-app-base-url}")
+  private String BASE_URL;
+
   @GetMapping("/default-mail-address")
   public String getDefaultMailAddress() {
 
-    String ulr = "http://localhost:8081/api/v1/mails/default";
+    String ulr = BASE_URL + "/default";
 
     RestTemplate restTemplate = new RestTemplate();
     //ResponseEntity<String> strResponseEntity = restTemplate.getForEntity(ulr, String.class);
@@ -36,7 +44,7 @@ public class CustomerMailController {
   @GetMapping
   public CustomerMailInfoDTO test() {
 
-    var url = "http://localhost:8081/api/v1/mails/{id}/infos";
+    var url = BASE_URL + "/{id}/infos";
     Map<String, String> params = new HashMap<>();
     params.put("id", "1");
 
@@ -79,7 +87,7 @@ public class CustomerMailController {
   @GetMapping("test-send-mail")
   public CustomerMailInfoDTO testSendMail() {
 
-    String url = "http://localhost:8081/api/v1/mails";
+    String url = BASE_URL;
 
     SendMailRequestDTO sendMailRequestDTO =
         new SendMailRequestDTO("yusuf@gmail.com", "selam evlat!", "naber nasılsın?");
@@ -94,7 +102,7 @@ public class CustomerMailController {
   @GetMapping("test-send-mail-put")
   public void testSendMailPut() {
 
-    String url = "http://localhost:8081/api/v1/mails";
+    String url = BASE_URL;
 
     SendMailRequestDTO sendMailRequestDTO =
         new SendMailRequestDTO("yusuf@gmail.com", "selam evlat!", "naber nasılsın?");
@@ -106,7 +114,7 @@ public class CustomerMailController {
   @GetMapping("/test-delete")
   public void delete(){
 
-    String url = "http://localhost:8081/api/v1/mails/{id}";
+    String url = BASE_URL + "/{id}";
 
     Map<String, String> params = new HashMap<>();
     params.put("id", "1");
@@ -114,5 +122,39 @@ public class CustomerMailController {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.delete(url, params);
 
+  }
+
+  @GetMapping("/test-delete-ex")
+  public void deleteEx(){
+
+    String url = BASE_URL + "/{id}";
+
+    Map<String, String> params = new HashMap<>();
+    params.put("id", "1");
+
+    HttpHeaders headers = new HttpHeaders();
+
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(headers), String.class, params);
+  }
+
+  @GetMapping("test-send-mail-ex")
+  public CustomerMailInfoDTO testSendMailEx() {
+
+    String url = BASE_URL;
+
+    SendMailRequestDTO sendMailRequestDTO =
+        new SendMailRequestDTO("yusuf@gmail.com", "selam evlat!", "naber nasılsın?");
+
+    HttpHeaders headers = new HttpHeaders();
+    HttpEntity<SendMailRequestDTO> httpEntity = new HttpEntity<>(sendMailRequestDTO, headers);
+
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<CustomerMailInfoDTO> responseEntity =
+        restTemplate.exchange(url, HttpMethod.POST, httpEntity, CustomerMailInfoDTO.class);
+
+    CustomerMailInfoDTO customerMailInfoDTO = responseEntity.getBody();
+
+    return customerMailInfoDTO;
   }
 }
