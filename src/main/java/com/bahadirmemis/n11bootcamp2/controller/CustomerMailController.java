@@ -90,4 +90,16 @@ public class CustomerMailController {
 
     return customerMailInfoDTO;
   }
+
+  @GetMapping("test-send-mail-put")
+  public void testSendMailPut() {
+
+    String url = "http://localhost:8081/api/v1/mails";
+
+    SendMailRequestDTO sendMailRequestDTO =
+        new SendMailRequestDTO("yusuf@gmail.com", "selam evlat!", "naber nasılsın?");
+
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.put(url, sendMailRequestDTO);
+  }
 }
