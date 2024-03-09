@@ -30,7 +30,7 @@ public class GeneralControllerAdvice extends ResponseEntityExceptionHandler {
     var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
     var restResponse = RestResponse.error(generalErrorMessages);
 
-    kafkaProducerService.sendMessage("logTopic", message);
+    kafkaProducerService.sendMessage("errorLog", message);
 
     return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
@@ -44,7 +44,7 @@ public class GeneralControllerAdvice extends ResponseEntityExceptionHandler {
     var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
     var restResponse = RestResponse.error(generalErrorMessages);
 
-    kafkaProducerService.sendMessage("logTopic", message);
+    kafkaProducerService.sendMessage("errorLog", message);
 
     return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
   }
@@ -58,7 +58,7 @@ public class GeneralControllerAdvice extends ResponseEntityExceptionHandler {
     var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
     var restResponse = RestResponse.error(generalErrorMessages);
 
-    kafkaProducerService.sendMessage("logTopic", message);
+    kafkaProducerService.sendMessage("errorLog", message);
 
     return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
   }
