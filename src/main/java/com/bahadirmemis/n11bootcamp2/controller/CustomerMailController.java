@@ -2,8 +2,10 @@ package com.bahadirmemis.n11bootcamp2.controller;
 
 import com.bahadirmemis.n11bootcamp2.dto.CustomerMailInfoDTO;
 import com.bahadirmemis.n11bootcamp2.dto.SendMailRequestDTO;
+import com.bahadirmemis.n11bootcamp2.general.KafkaProducerService;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,10 +24,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("api/v1/mails")
 @Slf4j
+@RequiredArgsConstructor
 public class CustomerMailController {
 
   @Value("${mail-app-base-url}")
   private String BASE_URL;
+
+  private final KafkaProducerService kafkaProducerService;
 
   @GetMapping("/default-mail-address")
   public String getDefaultMailAddress() {
@@ -38,6 +43,9 @@ public class CustomerMailController {
     String defaultMailAddress = restTemplate.getForObject(ulr, String.class);
 
     log.info("Default Mail Address " + defaultMailAddress);
+
+    kafkaProducerService.sendMessage("infoLog", defaultMailAddress);
+
     return defaultMailAddress;
   }
 
