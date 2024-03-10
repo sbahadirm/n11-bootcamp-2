@@ -6,6 +6,11 @@ import com.bahadirmemis.n11bootcamp2.general.RestResponse;
 import com.bahadirmemis.n11bootcamp2.request.CustomerSaveRequest;
 import com.bahadirmemis.n11bootcamp2.request.CustomerUpdatePasswordRequest;
 import com.bahadirmemis.n11bootcamp2.request.CustomerUpdateRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/customers")
 @Validated
+@Tag(name = "Customer Controller", description = "Customer Management")
 public class CustomerController {
 
   private CustomerControllerContract customerControllerContract;
@@ -38,6 +44,7 @@ public class CustomerController {
   }
 
   @GetMapping
+  @Operation(summary = "Get all customers", description = "Retrieves all active customers")
   public ResponseEntity<RestResponse<List<CustomerDTO>>> getAllCustomers() {
     List<CustomerDTO> allCustomers = customerControllerContract.getAllCustomers();
     return ResponseEntity.ok(RestResponse.of(allCustomers));
@@ -49,6 +56,7 @@ public class CustomerController {
     return ResponseEntity.ok(RestResponse.of(customerById));
   }
 
+  @Operation(summary = "Retrieves customer by username")
   @GetMapping("/with-username/{username}")
   public ResponseEntity<RestResponse<CustomerDTO>> getCustomerByUsername(@PathVariable @NotBlank String username) {
     CustomerDTO customerById = customerControllerContract.getCustomerByUsername(username);
@@ -56,6 +64,54 @@ public class CustomerController {
   }
 
   @PostMapping
+  @Operation(
+      description = "Creates new customer",
+      summary = "Create",
+      requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+          description = "Customers",
+          content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(
+                      implementation = CustomerSaveRequest.class
+                  ),
+                  examples = {
+                      @ExampleObject(
+                          name = "new foreign customer",
+                          summary = "Foreign",
+                          description = "Complete request with all available " +
+                                        "fields for foreign customer",
+                          value = "{\n"
+                                  + "  \"nameXXX\": \"John\",\n"
+                                  + "  \"surname\": \"Smith\",\n"
+                                  + "  \"birthDate\": \"2004-03-10\",\n"
+                                  + "  \"username\": \"john\",\n"
+                                  + "  \"identityNo\": \"90123456788\",\n"
+                                  + "  \"password\": \"123\",\n"
+                                  + "  \"phoneNumber\": \"5763333873\",\n"
+                                  + "  \"email\": \"john@gmail.com\"\n"
+                                  + "}"
+                      ),
+                      @ExampleObject(
+                          name = "new customer",
+                          summary = "Normal",
+                          description = "Complete request with all available fields" ,
+                          value = "{\n"
+                                  + "  \"nameXXX\": \"bahadır\",\n"
+                                  + "  \"surname\": \"memiş\",\n"
+                                  + "  \"birthDate\": \"1994-03-10\",\n"
+                                  + "  \"username\": \"sbahadirm\",\n"
+                                  + "  \"identityNo\": \"20123456788\",\n"
+                                  + "  \"password\": \"1233\",\n"
+                                  + "  \"phoneNumber\": \"5675786767\",\n"
+                                  + "  \"email\": \"bahadir@gmail.com\"\n"
+                                  + "}"
+                      )
+                  }
+              )
+          }
+      )
+  )
   public ResponseEntity<RestResponse<CustomerDTO>> saveCustomer(@Valid @RequestBody CustomerSaveRequest request) {
     CustomerDTO customerDTO = customerControllerContract.saveCustomer(request);
     return ResponseEntity.ok(RestResponse.of(customerDTO));
